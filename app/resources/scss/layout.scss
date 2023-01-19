@@ -1,0 +1,130 @@
+:root {
+    --background-color: rgb(197, 195, 195);
+    --btn-b-rad: 20px;
+    --btn-color: black;
+    --btn-background: rgb(116, 116, 235);
+    --timing: 0.3s;
+}
+
+html {
+    font-family: 'Source Sans Pro', sans-serif;
+}
+
+body {
+    background-color: var(--background-color);
+
+    *::selection {
+        color: var(--btn-background);
+    }
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    > h1 {
+        display: flex;
+        flex-direction: row;
+        margin: 0;
+        margin-top: 6px;
+        font-size: 30px;
+        
+        > div {
+            @for $i from 1 through 6 {
+                &:nth-child(#{$i}) {
+                    @if $i != 6 {
+                        margin-right: 6px;
+                    }
+                }
+            }
+        }
+    }
+
+    > nav > ul {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        grid-gap: 1.8em;
+        padding: 0;
+
+        li {
+            a {
+                display: block;
+                user-select: none;
+                color: var(--btn-color);
+                text-align: center;
+                text-decoration: none;
+                padding: 0.7em;
+                border-radius: calc(var(--btn-b-rad) - 1px);
+                transition: all var(--timing) cubic-bezier(0.5, -0.5, 0.5, 1.5), background-color var(--timing) linear;
+            }
+
+            &:hover {
+                a {
+                    color: white;
+                }
+                background-color: var(--btn-background);
+                transform: scale(1.1);
+            }
+            
+            list-style-type: none;
+            border: 2px solid black;
+            border-radius: var(--btn-b-rad);
+            box-shadow: 5px 6px black;
+
+            transition: all var(--timing) cubic-bezier(0.5, -0.5, 0.5, 1.5), background-color var(--timing) linear;
+        }
+    }
+}
+
+footer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1em;
+}
+
+#main-menu {
+    > header {
+        height: 90vh;
+
+        > h1 {
+            font-size: 40px;
+            margin: 6px;
+
+            > div {
+                @for $i from 1 through 6 {
+                    &:nth-child(#{$i}) {
+                        animation: title_a var(--timing) cubic-bezier(0.5, -0.5, 0.5, 1.5) 75ms*$i 1 normal forwards;
+                        opacity: 0;
+                        
+                        @if $i != 6 {
+                            margin-right: 6px;
+                        }
+                    }
+                }
+            }
+        }
+
+        > nav > ul {
+            grid-gap: 2em;
+
+            > li > a {
+                padding: 1em;
+            }
+        }
+    }
+}
+
+@keyframes title_a {
+    0% {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
