@@ -23,13 +23,38 @@ function cssToScss() {
 cssToScss()
 
 app.get("/favicon.ico", function(req, res) {})
+
+app.get("/tables", async function(req, res) {
+    var table_names
+    
+    console.log("Requesting", req.url)
+
+    table_names = await new Promise((resolve, reject) => {
+        dbInstance.client.query(`
+            SELECT TABLE_NAME 
+            FROM INFORMATION_SCHEMA.TABLES
+            WHERE TABLE_TYPE = 'BASE TABLE' AND TABLE_SCHEMA='biblioteca'
+        `, function(err, qres) {
+            if(err)
+                return reject(err)
+            
+            resolve(qres)
+        })
+    }).then(query => {
+        return query.map(e => e.TABLE_NAME)
+    }).catch(err => 
+        setImmediate(() => {throw err;})
+    )
+
+    res.render("pages/tables", {table_names: table_names})
+})
 app.get("/*", function(req, res) {
     console.log("Requesting", req.url)
-    res.render("pages" + req.url, function(err=null, renderRes) {
+    res.render("pages" + req.url, function(err=null, render_res) {
         if(err)
             throw err
         else
-            res.send(renderRes)
+            res.send(render_res)
     })
 })
 

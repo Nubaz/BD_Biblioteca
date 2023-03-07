@@ -3,12 +3,17 @@
     <head>
         <%- include("../fragments/head.ejs")%>
 
-        <title>Titlu</title>
+        <title>Toate tabelele</title>
     </head>
     <body>
         <%- include("../fragments/header.ejs")%>
         
         <main>
+            <div>
+                <% for(let table of locals.table_names) { %>
+                    <li><%- table %></li>
+                <% } %>
+            </div>
         </main>
 
         <%- include("../fragments/footer.ejs")%>

@@ -2,6 +2,13 @@ const mysql = require("mysql")
 
 class dbAccess {
     static #instance = null
+    static connObj = {
+        host: "localhost",
+        user: "root",
+        password: "antiguas",
+        database: "biblioteca",
+        port: 3306
+    }
 
     constructor() {
         if(dbAccess.#instance) {
@@ -12,13 +19,7 @@ class dbAccess {
     }
 
     initDB() {
-        this.client = new mysql.createConnection({
-            host: "localhost",
-            user: "root",
-            password: "antiguas",
-            database: "db_biblioteca",
-            port: 3306
-        })
+        this.client = new mysql.createConnection(dbAccess.connObj)
 
         this.client.connect(function(err) {
             if (err) throw err
